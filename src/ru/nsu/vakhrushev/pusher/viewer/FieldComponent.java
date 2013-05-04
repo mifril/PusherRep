@@ -21,11 +21,11 @@ public class FieldComponent extends JPanel {
     private Model model = null;
     private int frameWidth = 0;
     private int frameHeight = 0;
-    private static BufferedImage imgBox ;
-    private static BufferedImage imgHero;
-    private static BufferedImage imgBorder;
-    private static BufferedImage imgPlace;
-    private static BufferedImage imgFloor;
+    private BufferedImage imgBox ;
+    private BufferedImage imgHero;
+    private BufferedImage imgBorder;
+    private BufferedImage imgPlace;
+    private BufferedImage imgFloor;
 
     public FieldComponent(Model newModel, Dimension d)
     {
