@@ -26,6 +26,7 @@ public class FieldComponent extends JPanel {
     private BufferedImage imgBorder;
     private BufferedImage imgPlace;
     private BufferedImage imgFloor;
+    private BufferedImage imgHeroOnPlace;
 
     public FieldComponent(Model newModel, Dimension d)
     {
@@ -36,6 +37,7 @@ public class FieldComponent extends JPanel {
             imgBorder = ImageIO.read(new File("images/wall.jpg"));
             imgPlace = ImageIO.read(new File("images/place2.jpg"));
             imgFloor = ImageIO.read(new File("images/floor.jpg"));
+            imgHeroOnPlace = ImageIO.read(new File("images/duck3.jpg"));
             frameWidth = d.width;
             frameHeight = d.height;
             model = newModel;
@@ -74,7 +76,11 @@ public class FieldComponent extends JPanel {
                 {
                     g.drawImage(imgBox, j * imgWidth, i * imgHeight, imgWidth, imgHeight, this);
                 }
-                else if (model.isHero(i, j))
+                else if ( model.isHero(i, j) && model.isPlace(i, j))
+                {
+                    g.drawImage(imgHeroOnPlace, j * imgWidth, i * imgHeight, imgWidth, imgHeight, this);
+                }
+                else if (model.isHero(i, j) && !model.isPlace(i, j))
                 {
                     g.drawImage(imgHero, j * imgWidth, i * imgHeight, imgWidth, imgHeight, this);
                 }
