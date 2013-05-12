@@ -23,7 +23,6 @@ public class LevelsTableModel extends AbstractTableModel {
             data = c.getScoresData();
         }
 
-
         public int getColumnCount()
         {
             return columnNames.length;
@@ -43,10 +42,4 @@ public class LevelsTableModel extends AbstractTableModel {
         {
             return data[row][col];
         }
-/*
-        public Class getColumnClass(int c)
-        {
-            return getValueAt(0, c).getClass();
-        }
-*/
 }

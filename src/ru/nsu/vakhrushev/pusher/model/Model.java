@@ -31,8 +31,6 @@ public class Model extends Observable {
     private int y = 0;
     /** Game field.*/
     private char field[][] = null;
-    /** Game steps.*/
-    private Score score = new Score();
 
 
     public int getWidth ()
@@ -50,10 +48,6 @@ public class Model extends Observable {
     public int getY ()
     {
         return y;
-    }
-    public Score getScore()
-    {
-        return score;
     }
 
     public boolean isBorder (int newY, int newX)
@@ -232,7 +226,7 @@ public class Model extends Observable {
         return result;
     }
 
-    public void step (Direction d)
+    public void step (Direction d, Score score)
     {
         switch (d)
         {

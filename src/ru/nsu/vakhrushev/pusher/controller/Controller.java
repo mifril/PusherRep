@@ -3,10 +3,13 @@ package ru.nsu.vakhrushev.pusher.controller;
 import ru.nsu.vakhrushev.pusher.model.Model;
 import ru.nsu.vakhrushev.pusher.viewer.Viewer;
 
-import java.io.BufferedWriter;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.Properties;
 import java.util.Set;
 
@@ -22,12 +25,14 @@ public class Controller
     private static final int timeColumn = 2;
 
     private boolean gameIsPlaying = false;
+    private boolean gameStarted = false;
     private String defaultLevelInfo = "NotComplete;NotComplete;NotComplete";
     private String propertyPath;
     private Object[][] scoresData = null;
     private Properties prop = new Properties();
     private Timer timer;
     private String currLevelName;
+    private Score score;
 
     private Viewer viewer;
 
@@ -36,6 +41,7 @@ public class Controller
     public void startGame()
     {
         viewer = new Viewer(this);
+        gameStarted = true;
     }
 
     public boolean isPlaying()
@@ -50,13 +56,29 @@ public class Controller
         gameIsPlaying = true;
         viewer.setModel(model);
         model.addObserver(viewer);
-        timer = new Timer(this, viewer, model.getScore());
+        score = new Score();
+        score.startCount();
+
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                score.setTimeInSec(System.currentTimeMillis());
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        viewer.updateInfoPanel(score);
+                    }
+                });
+            }
+        });
+
         timer.start();
     }
 
     public void stopTimer()
     {
-        timer.interrupt();
+        timer.stop();
     }
 
     public boolean isNewRecord (String levelName, long newTime)
@@ -81,7 +103,6 @@ public class Controller
 
     public void exitLevel ()
     {
-        Score score = timer.getScore();
         if (isNewRecord(currLevelName, score.getTime()))
         {
             String playerName = viewer.getPlayerName();
@@ -100,16 +121,16 @@ public class Controller
 
     public void saveScores ()
     {
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("C:/Users/MAX/IdeaProjects/Pusher/src/ru/nsu/vakhrushev/pusher/controller/scoresProperty.txt"))))
+        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream("C:/Users/MAX/IdeaProjects/Pusher/src/ru/nsu/vakhrushev/pusher/controller/scoresProperty.txt")), true))
         {
             Set<String> set = prop.stringPropertyNames();
             for (String str : set)
             {
                 String outString = str + "=" + prop.getProperty(str);
-                writer.write(outString);
+                writer.println(outString);
 //                System.out.println(outString);
-                writer.newLine();
             }
+            writer.close();
         }
         catch (IOException e)
         {
@@ -123,7 +144,10 @@ public class Controller
         {
             propertyPath = fileName;
             int count = 0;
-            prop.load(this.getClass().getResourceAsStream(propertyPath));
+            if (!gameStarted)
+            {
+                prop.load(this.getClass().getResourceAsStream(propertyPath));
+            }
             Set<String> set = prop.stringPropertyNames();
             scoresData = new Object[set.size()][columnsInScores];
 
@@ -149,6 +173,12 @@ public class Controller
         }
         saveScores();
     }
+
+    public Score getScore()
+    {
+        return score;
+    }
+
     public Object[][] getScoresData()
     {
         return scoresData;

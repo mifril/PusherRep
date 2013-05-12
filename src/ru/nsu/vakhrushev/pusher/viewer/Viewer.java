@@ -6,8 +6,6 @@ import ru.nsu.vakhrushev.pusher.model.Model;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,8 +35,8 @@ public class Viewer extends JFrame implements Observer {
     private Model model = null;
     private int fieldWidth = 0;
     private int fieldHeight = 0;
-    String currentLevel;
-    Controller controller;
+    private String currentLevel;
+    private Controller controller;
 
 
     public Viewer(Controller newController)
@@ -150,7 +148,6 @@ public class Viewer extends JFrame implements Observer {
     {
         try
         {
-            scoresFrame = new ScoresFrame(controller, "scoresProperty.txt");
             model = null;
             panel.removeAll();
             panel.setLayout(new FlowLayout(FlowLayout.CENTER, 2, 1));
@@ -183,9 +180,12 @@ public class Viewer extends JFrame implements Observer {
             panel.add(listPane);
             panel.add(button);
 
+            scoresFrame = new ScoresFrame(controller, "scoresProperty.txt");
+
             pack();
             setLocationRelativeTo(null);
             repaint();
+
         }
         catch (IOException ex)
         {
@@ -220,7 +220,7 @@ public class Viewer extends JFrame implements Observer {
 
         fieldPanel.setFocusable(true);
         fieldPanel.requestFocusInWindow();
-        fieldPanel.addKeyListener(new KeyEventListener(model));
+        fieldPanel.addKeyListener(new KeyEventListener(model, controller.getScore()));
 
         pack();
         setLocationRelativeTo(null);
@@ -246,7 +246,7 @@ public class Viewer extends JFrame implements Observer {
 
     public String getPlayerName ()
     {
-        return JOptionPane.showInputDialog(this,"You made a record! Enter your name:");
+        return JOptionPane.showInputDialog(this, "You made a record! Enter your name:");
     }
     public void showEndLevelMessage()
     {

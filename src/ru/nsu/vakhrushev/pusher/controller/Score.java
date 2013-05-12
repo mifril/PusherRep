@@ -10,16 +10,23 @@ package ru.nsu.vakhrushev.pusher.controller;
 public class Score {
 
     private int steps = 0;
+    private long startTime = 0;
     private long time = 0;
+
+    public void startCount ()
+    {
+        steps = 0;
+        startTime = System.currentTimeMillis();
+    }
 
     public void incrementSteps()
     {
         steps++;
     }
 
-    public void setTime(long time)
+    public void setTimeInSec(long time)
     {
-        this.time = time;
+        this.time = (time - this.startTime) / 1000;
     }
 
     public int getSteps()
