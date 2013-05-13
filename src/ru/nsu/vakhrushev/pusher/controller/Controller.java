@@ -121,7 +121,7 @@ public class Controller
 
     public void saveScores ()
     {
-        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream("C:/Users/MAX/IdeaProjects/Pusher/src/ru/nsu/vakhrushev/pusher/controller/scoresProperty.txt")), true))
+        try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream("src/ru/nsu/vakhrushev/pusher/controller/scoresProperty.txt")), true))
         {
             Set<String> set = prop.stringPropertyNames();
             for (String str : set)
