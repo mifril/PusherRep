@@ -153,12 +153,22 @@ public class Viewer extends JFrame implements Observer {
             panel.setLayout(new FlowLayout(FlowLayout.CENTER, 2, 1));
 
             setPreferredSize(new Dimension(500, 300));
+            setMaximumSize(new Dimension(500, 300));
+            setMinimumSize(new Dimension(500, 300));
+            setSize(new Dimension(500, 300));
+
             panel.setPreferredSize(new Dimension(500, 300));
+            panel.setMaximumSize(new Dimension(500, 300));
+            panel.setMinimumSize(new Dimension(500, 300));
+            panel.setSize(new Dimension(500, 300));
 
             final JList <String> list = new JList<>();
             list.setModel(new LevelsListModel("levels/levels.txt"));
             list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             list.setPreferredSize(new Dimension(300, list.getLastVisibleIndex() * 20));
+            list.setMaximumSize(new Dimension(300, list.getLastVisibleIndex() * 20));
+            list.setMinimumSize(new Dimension(300, list.getLastVisibleIndex() * 20));
+            list.setSize(new Dimension(300, list.getLastVisibleIndex() * 20));
 
             JScrollPane listPane = new JScrollPane(list);
 
@@ -199,19 +209,26 @@ public class Viewer extends JFrame implements Observer {
         panel.setLayout(new BorderLayout());
 
         setPreferredSize(new Dimension(fieldWidth + infoWidth, fieldHeight + menuBar.getHeight()));
+        setMaximumSize(new Dimension(fieldWidth + infoWidth, fieldHeight + menuBar.getHeight()));
+        setMinimumSize(new Dimension(fieldWidth + infoWidth, fieldHeight + menuBar.getHeight()));
+        setSize(new Dimension(fieldWidth + infoWidth, fieldHeight + menuBar.getHeight()));
         panel.setPreferredSize(this.getPreferredSize());
-
-
-//        fieldPanel.setPreferredSize(new Dimension(fieldWidth, fieldHeight));
-//        fieldPanel.setLayout(new GridLayout(1, 1));
-//        fieldPanel.add(new FieldComponent(model, new Dimension(fieldWidth, fieldHeight)));
+        panel.setMaximumSize(this.getPreferredSize());
+        panel.setMinimumSize(this.getPreferredSize());
+        panel.setSize(this.getPreferredSize());
 
         fieldPanel = new FieldComponent(model, new Dimension(fieldWidth, fieldHeight));
         fieldPanel.setPreferredSize(new Dimension(fieldWidth, fieldHeight));
+        fieldPanel.setMaximumSize(new Dimension(fieldWidth, fieldHeight));
+        fieldPanel.setMinimumSize(new Dimension(fieldWidth, fieldHeight));
+        fieldPanel.setSize(new Dimension(fieldWidth, fieldHeight));
         fieldPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.DARK_GRAY));
 
         infoPanel = new InfoComponent(new Dimension(infoWidth, fieldHeight), cellSize);
         infoPanel.setPreferredSize(new Dimension(infoWidth, fieldHeight));
+        infoPanel.setMaximumSize(new Dimension(infoWidth, fieldHeight));
+        infoPanel.setMinimumSize(new Dimension(infoWidth, fieldHeight));
+        infoPanel.setSize(new Dimension(infoWidth, fieldHeight));
         infoPanel.setLayout(new GridLayout(2, 1));
         infoPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.DARK_GRAY));
 
