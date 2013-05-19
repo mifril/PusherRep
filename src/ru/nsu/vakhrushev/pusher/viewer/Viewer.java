@@ -179,8 +179,11 @@ public class Viewer extends JFrame implements Observer {
                     try
                     {
                         currentLevel = list.getSelectedValue();
-                        controller.startLevel(currentLevel);
-                        setGameWindow();
+                        if (null != currentLevel)
+                        {
+                            controller.startLevel(currentLevel);
+                            setGameWindow();
+                        }
                     }
                     catch (IOException ex)
                     {
@@ -246,7 +249,6 @@ public class Viewer extends JFrame implements Observer {
 
     public void updateInfoPanel(Score score)
     {
-//        System.out.println("Steps :" + score.getSteps() + ", Time :" + score.getTime());
         Component [] components = infoPanel.getComponents();
         ((JLabel) components[0]).setText("Steps :" + score.getSteps());
         ((JLabel) components[1]).setText("Time :" + score.getTime());

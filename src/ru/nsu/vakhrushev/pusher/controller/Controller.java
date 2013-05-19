@@ -22,7 +22,8 @@ import java.util.Set;
 public class Controller
 {
     private static final int columnsInScores = 4;
-    private static final int timeColumn = 2;
+    private static final int timeColumn = 1;
+    private static final int stepsColumn = 2;
 
     private boolean gameIsPlaying = false;
     private boolean gameStarted = false;
@@ -81,7 +82,7 @@ public class Controller
         timer.stop();
     }
 
-    public boolean isNewRecord (String levelName, long newTime)
+    public boolean isNewRecord (String levelName, long newTime, long newSteps)
     {
         String str = prop.getProperty(levelName);
         if (str.equals(defaultLevelInfo))
@@ -92,7 +93,7 @@ public class Controller
         {
             String [] levelInfo = prop.getProperty(levelName).split(";");
             {
-                if (Integer.decode(levelInfo[timeColumn]) >= newTime)
+                if (Integer.decode(levelInfo[timeColumn]) > newTime || (Integer.decode(levelInfo[timeColumn]) == newTime && Integer.decode(levelInfo[stepsColumn]) > newSteps))
                 {
                     return true;
                 }
@@ -103,7 +104,8 @@ public class Controller
 
     public void exitLevel ()
     {
-        if (isNewRecord(currLevelName, score.getTime()))
+        stopTimer();
+        if (isNewRecord(currLevelName, score.getTime(), score.getSteps()))
         {
             String playerName = viewer.getPlayerName();
             if (playerName != null)
